@@ -27,8 +27,17 @@ app.discord.client.on('ready', () => {
     console.log('Bot ready!')
 });
 
-app.discord.client.on('message', message => {
-    message.reply('FUCK BOI')
+app.discord.client.on('message', msg => {
+
+    if (msg.channel.id != '504032866829598731') {
+        return
+    }
+
+    if (msg.content.startsWith('.flop')) {
+        let message = msg.content.split('.flop')[0] || ''
+
+        message.reply(message)
+    }
 });
 
 app.discord.client.login(process.env.BOT_TOKEN)
