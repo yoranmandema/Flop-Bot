@@ -1,37 +1,33 @@
-app = {};
-app.pg = {};
+app = {}
+app.pg = {}
+app.discord = {}
 
-const pg = require('pg')
-app.discord = require('discord.js')
-app.client = new app.discord.Client()
+app.modules = {
+    postgres: require('pg'),
+    discord: require('discord.js')
+}
+
+app.discord.client = new app.modules.discord.Client()
 
 const connectionString = process.env.DATABASE_URL
 
-app.pg.pool = new pg.Pool({
+// Create new pool
+app.pg.pool = new app.modules.postgres.Pool({
     connectionString: connectionString
 })
 
-app.pg.pool.query('SELECT NOW()', (err, res) => {
-    console.log(err, res)
-    app.pg.pool.end()
-})
-
-app.pg.client = new pg.Client({
+// Create new database client
+app.pg.client = new app.modules.postgres.Client({
     connectionString: connectionString
 })
 app.pg.client.connect()
 
-app.pg.client.query('SELECT NOW()', (err, res) => {
-    console.log(err, res)
-    app.pg.client.end()
-})
-
-app.client.on('ready', () => {
+app.discord.client.on('ready', () => {
     console.log('Bot ready!')
 });
 
-app.client.on('message', message => {
+app.discord.client.on('message', message => {
     message.reply('FUCK BOI')
 });
 
-app.client.login(process.env.BOT_TOKEN);
+app.discord.client.login(process.env.BOT_TOKEN);
