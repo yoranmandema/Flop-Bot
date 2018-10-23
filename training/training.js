@@ -51,18 +51,19 @@ function getAllMessagesInChannel (before, channel) {
             } else {
                 currentChannel++
 
-                app.discussionChannel.sendMessage(`Finished with channel: ${channel.name}, processed ${currentChannel}`)
+                //app.discussionChannel.sendMessage(`Finished with channel: ${channel.name}, processed ${currentChannel}`)
+                console.log(`Finished with channel: ${channel.name}, processed ${currentChannel}`)
 
                 if (currentChannel == textChannels.size) {
                     //console.log(`recieved all messages! Total ${allMessages.size}`)
 
-                    app.discussionChannel.sendMessage(`recieved all messages! Total ${allMessages.size}`);
+                    app.discussionChannel.send(`recieved all messages! Total ${allMessages.size}`);
                     onHasAllMessages()
                 }
             }
         }).catch(_ => {
             currentChannel++
-            app.discussionChannel.sendMessage(`Finished with channel: ${channel.name}`)
+            console.log(`Finished with channel: ${channel.name}, processed ${currentChannel}`)
         })
 }
 

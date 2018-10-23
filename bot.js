@@ -57,7 +57,7 @@ app.discord.client.on('message', msg => {
 
     let message = generateMessage(100, randomWord)
 
-    msg.channel.sendMessage(message)
+    msg.channel.send(message)
 });
 
 var randomProperty = function (obj) {
