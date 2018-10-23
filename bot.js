@@ -1,12 +1,8 @@
 
-process.env = {
-    DATABASE_URL: 'postgres://rdxnsbbbgvqnpa:a58f85d49f2166af2a785e68b68df8847c48c0adf3ad09e27620df8126da60de@ec2-54-217-236-201.eu-west-1.compute.amazonaws.com:5432/d78r5tm7lpdk2r',
-    BOT_TOKEN: 'NTA0MDEyMjYwNzM0NDAyNTcx.Dq_KRw.XDhQeaalpdmQyDMVTxXXMo8oLKo'
-}
-
 app = {}
 app.pg = {}
 app.discord = {}
+app.process = process
 
 app.modules = {
     postgres: require('pg'),

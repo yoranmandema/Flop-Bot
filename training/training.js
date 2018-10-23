@@ -46,7 +46,7 @@ function getAllMessagesInChannel (before, channel) {
             //console.log(`Received ${messages.size} messages from ${channel.name}`)
             allMessages = allMessages.concat(messages)
 
-            if (messages.size == 100 && allMessages.size < 1500) {
+            if (messages.size == 100 && allMessages.size < app.process.MAX_MESSAGES) {
                 getAllMessagesInChannel(messages.first().id, channel)
             } else {
                 currentChannel++
