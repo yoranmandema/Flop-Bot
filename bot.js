@@ -1,32 +1,17 @@
-
 app = {}
-app.pg = {}
 app.discord = {}
 app.process = process
 
 app.modules = {
-    postgres: require('pg'),
     discord: require('discord.js'),
     training: require('./training/training'),
     debug: require('debug')
 }
 
-const postgresURL = process.env.DATABASE_URL
-app.discussionChannel = null; 
+app.discussionChannel = null;
 app.robotChannel = null;
 
 app.discord.client = new app.modules.discord.Client()
-
-// Create new pool
-app.pg.pool = new app.modules.postgres.Pool({
-    connectionString: postgresURL
-})
-
-// Create new database client
-app.pg.client = new app.modules.postgres.Client({
-    connectionString: postgresURL
-})
-//app.pg.client.connect()
 
 app.discord.client.login(process.env.BOT_TOKEN)
 
@@ -48,7 +33,7 @@ app.discord.client.on('message', msg => {
         return
     }
 
-    let msgWords = msg.content.split(' ')
+    let msgWords = msg.content.toLowerCase().split(' ')
     let randomWord = msgWords[Math.floor(Math.random() * msgWords.length)]
 
     if (Math.random() > 0.25 && app.modules.training.words[randomWord] == undefined) {
@@ -77,11 +62,11 @@ function generateMessage (length, start) {
     } else {
         word = randomProperty(words)
         let tries = 0
-    
+
         while ((word.value == undefined || word.value.length == 0) && tries < 25) {
             word = randomProperty(words)
             tries++;
-        }        
+        }
     }
 
     let message = word.key;

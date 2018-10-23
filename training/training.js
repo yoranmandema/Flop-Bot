@@ -1,4 +1,3 @@
-
 let allMessages
 let discord
 let postgres
@@ -28,7 +27,7 @@ exports.words = words;
 let currentChannel = 0
 
 function getMessages () {
-    app.discussionChannel.sendMessage(`Getting messages from ${textChannels.size} channels`);
+    app.discussionChannel.send(`Getting ${app.process.env.MAX_MESSAGES} messages from ${textChannels.size} channels`);
 
     textChannels = textChannels.filter(x => x != app.discussionChannel)
     textChannels = textChannels.filter(x => x != app.robotChannel)
@@ -39,23 +38,25 @@ function getMessages () {
 }
 
 function getAllMessagesInChannel (before, channel) {
-    console.log(`Getting rest messages from ${channel.name}, before ${before}`)
-
     channel.fetchMessages({ before: before, limit: 100 })
         .then(messages => {
-            //console.log(`Received ${messages.size} messages from ${channel.name}`)
             allMessages = allMessages.concat(messages)
 
-            if (messages.size == 100 && allMessages.size < app.process.MAX_MESSAGES) {
-                getAllMessagesInChannel(messages.first().id, channel)
+            let last = messages.last()
+
+            var dateString = last.createdAt.toLocaleDateString("nl-NL", {year: 'numeric', month: 'numeric', day: 'numeric'})
+
+            console.log(`Got messages from ${channel.name}, oldest: ${dateString}, total: ${allMessages.size}`)
+
+            if (allMessages.size < app.process.env.MAX_MESSAGES) {
+                getAllMessagesInChannel(last.id, channel)
             } else {
                 currentChannel++
 
-                //app.discussionChannel.sendMessage(`Finished with channel: ${channel.name}, processed ${currentChannel}`)
                 console.log(`Finished with channel: ${channel.name}, processed ${currentChannel}`)
 
                 if (currentChannel == textChannels.size) {
-                    //console.log(`recieved all messages! Total ${allMessages.size}`)
+                    console.log(`recieved all messages! Total ${allMessages.size}`)
 
                     app.discussionChannel.send(`recieved all messages! Total ${allMessages.size}`);
                     onHasAllMessages()
@@ -76,7 +77,7 @@ function onHasAllMessages () {
         content += message.content + " "
     })
 
-    trainOnMessage(content)
+    trainOnMessage(content.toLowerCase())
 
     console.log(words.length)
 
