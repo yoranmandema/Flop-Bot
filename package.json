@@ -4,6 +4,7 @@
   "description": "Floppotron",
   "main": "bot.js",
   "dependencies": {
+    "debug": "^4.1.0",
     "discord.js": "^11.3.2",
     "pg": "^7.5.0"
   },
