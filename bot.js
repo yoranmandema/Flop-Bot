@@ -102,5 +102,9 @@ function generateMessage (length, start) {
         message += " " + nextWord
     }
 
+    if (message == undefined) {
+        message = ""
+    }
+
     return message.substring(0, 2000);
 }
