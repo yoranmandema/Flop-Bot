@@ -102,5 +102,5 @@ function generateMessage (length, start) {
         message += " " + nextWord
     }
 
-    return message
+    return message.substring(0, 2000);
 }
