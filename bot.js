@@ -26,6 +26,7 @@ app.discord.client.on('ready', () => {
 
 app.discord.client.on('message', msg => {
     if(msg.author.id === app.discord.client.user.id) return;
+    if(msg.author.bot) return;
 
     app.modules.training.trainOnMessage(msg.content)
 
