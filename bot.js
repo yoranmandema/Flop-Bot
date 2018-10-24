@@ -9,7 +9,7 @@ app.modules = {
 }
 
 app.discussionChannel = null;
-app.robotChannel = null;
+app.flopChannel = null;
 
 app.discord.client = new app.modules.discord.Client()
 
@@ -19,7 +19,7 @@ app.discord.client.on('ready', () => {
     console.log('Bot ready!')
 
     app.discussionChannel = app.discord.client.channels.find(x => x.id == '504032866829598731')
-    app.robotChannel = app.discord.client.channels.find(x => x.id == "504335196418736148")
+    app.flopChannel = app.discord.client.channels.find(x => x.id == "504609258692804608")
 
     app.modules.training.init(app)
 });
@@ -30,7 +30,7 @@ app.discord.client.on('message', msg => {
 
     app.modules.training.trainOnMessage(msg.content)
 
-    if (!(msg.channel == app.discussionChannel || msg.channel == app.robotChannel)) {
+    if (!(msg.channel == app.discussionChannel || msg.channel == app.flopChannel)) {
         return
     }
 
