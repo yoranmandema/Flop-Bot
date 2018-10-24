@@ -26,9 +26,10 @@ app.discord.client.on('ready', () => {
 
 app.discord.client.on('message', msg => {
     if(msg.author.id === app.discord.client.user.id) return;
-    if(msg.author.bot) return;
-
-    app.modules.training.trainOnMessage(msg.content)
+    
+    if(msg.author.id != '338699578834550784') {
+        app.modules.training.trainOnMessage(msg.content)
+    }
 
     if (!(msg.channel == app.discussionChannel || msg.channel == app.flopChannel)) {
         return
