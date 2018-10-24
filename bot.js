@@ -93,5 +93,5 @@ function generateMessage (length, start) {
         message = ""
     }
 
-    return message.substring(0, 2000).replace("@","");
+    return message.substring(0, 2000).replace("<@","").replace("@","");
 }
