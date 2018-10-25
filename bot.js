@@ -46,7 +46,7 @@ app.discord.client.on('message', msg => {
 
     let message = generateMessage(100, randomWord)
     
-    message = message.replace(/<@(\d+)>/i, (full, id) => msg.guild.members.get(id).user.nickname)
+    message = message.replace(/<@(\d+)>/g, (full, id) => msg.guild.members.get(id).user.nickname)
 
     msg.channel.send(message)
 });
