@@ -85,7 +85,8 @@ function onHasAllMessages () {
 }
 
 function trainOnMessage (message) {
-    message = message.replace(/<@(\d+)>/g, (full, id) => {
+    
+    let filteredMessage = message.replace(/<@(\d+)>/g, (full, id) => {
         let member = msg.guild.members.get(id)
 
         if (member.nickname != undefined) {
@@ -95,7 +96,7 @@ function trainOnMessage (message) {
         }
     })
 
-    let wordsInMessage = message.split(' ')
+    let wordsInMessage = filteredMessage.split(' ')
 
     for (let i = 0; i < wordsInMessage.length - 1; i++) {
         let currentWord = wordsInMessage[i]
