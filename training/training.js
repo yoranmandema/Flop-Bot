@@ -85,6 +85,16 @@ function onHasAllMessages () {
 }
 
 function trainOnMessage (message) {
+    message = message.replace(/<@(\d+)>/g, (full, id) => {
+        let member = msg.guild.members.get(id)
+
+        if (member.nickname != undefined) {
+            return member.nickname
+        } else {
+            return member.user.username
+        }
+    })
+
     let wordsInMessage = message.split(' ')
 
     for (let i = 0; i < wordsInMessage.length - 1; i++) {

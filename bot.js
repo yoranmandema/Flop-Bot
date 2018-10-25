@@ -46,16 +46,6 @@ app.discord.client.on('message', msg => {
 
     let message = generateMessage(100, randomWord)
     
-    message = message.replace(/<@(\d+)>/g, (full, id) => {
-        let member = msg.guild.members.get(id)
-
-        if (member.nickname != undefined) {
-            return member.nickname
-        } else {
-            return member.user.username
-        }
-    })
-
     msg.channel.send(message)
 });
 
