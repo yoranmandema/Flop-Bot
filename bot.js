@@ -24,6 +24,8 @@ app.discord.client.on('ready', () => {
     app.modules.training.init(app)
 });
 
+let users = {};
+
 app.discord.client.on('message', msg => {
     if(msg.author.id === app.discord.client.user.id) return;
     
@@ -43,6 +45,8 @@ app.discord.client.on('message', msg => {
     }
 
     let message = generateMessage(100, randomWord)
+    
+    message = message.replace(/<@(\d+)>/i, (full, id) => msg.guild.members.get(id).user.nickname)
 
     msg.channel.send(message)
 });
@@ -93,5 +97,5 @@ function generateMessage (length, start) {
         message = ""
     }
 
-    return message.substring(0, 2000).replace("<@","").replace("@","");
+    return message.substring(0, 2000);
 }
