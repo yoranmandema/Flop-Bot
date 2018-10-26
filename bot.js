@@ -30,7 +30,7 @@ app.discord.client.on('message', msg => {
     if(msg.author.id === app.discord.client.user.id) return;
     
     if(msg.author.id != '338699578834550784') {
-        app.modules.training.trainOnMessage(msg.content)
+        app.modules.training.trainOnMessage(msg)
     }
 
     if (!(msg.channel == app.discussionChannel || msg.channel == app.flopChannel)) {
@@ -40,8 +40,15 @@ app.discord.client.on('message', msg => {
     let msgWords = msg.content.toLowerCase().split(' ')
     let randomWord = msgWords[Math.floor(Math.random() * msgWords.length)]
 
-    if (Math.random() > 0.25 && app.modules.training.words[randomWord] == undefined) {
-        return
+    // if (Math.random() > 0.25 && app.modules.training.words[randomWord] == undefined) {
+
+    //     return
+    // }
+
+    let lastWord = msgWords[msgWords.length - 1]
+
+    if (lastWord.endsWith('?')) {
+        randomWord = lastWord.replace(/\?+/g,'')
     }
 
     let message = generateMessage(100, randomWord)

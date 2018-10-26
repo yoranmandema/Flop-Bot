@@ -4,6 +4,7 @@ let postgres
 let debug 
 let textChannels
 let words = {}
+let questionWord = ''
 
 let wordObject = function (w){
     this.word = w
@@ -74,40 +75,78 @@ function onHasAllMessages () {
     let content = ''
 
     allMessages.tap(message => {
-        content += message.content + " "
+        trainOnMessage(message)
     })
-
-    trainOnMessage(content.toLowerCase())
 
     console.log(words.length)
 
     console.log(`Bot trained!`)
 }
 
+function processWord (word, next) {
+    if (words[word] === undefined) {
+        words[word] = []
+    } else {
+        words[word].push(next)
+    }
+}
+
 function trainOnMessage (message) {
     
-    let filteredMessage = message.replace(/<@(\d+)>/g, (full, id) => {
-        let member = msg.guild.members.get(id)
+    let filteredMessage = message.content
 
-        if (member.nickname != undefined) {
-            return member.nickname
-        } else {
-            return member.user.username
-        }
-    })
+    // User mention
+    if (/<@(\d+)>/g.test(filteredMessage)) {
+        filteredMessage = message.content.replace(/<@(\d+)>/g, (full, id) => {
+            let member = message.guild.members.get(id)
+
+            if (member.nickname != undefined) {
+                return member.nickname
+            } else {
+                return member.user.username
+            }
+        })
+    }
+
+    // Role mention
+    if (/<@&(\d+)>/g.test(filteredMessage)) {
+        filteredMessage = message.content.replace(/<@&(\d+)>/g, (full, id) => {
+            let role = message.guild.roles.get(id)
+
+            return role.name
+        })
+    }
+
+    filteredMessage = filteredMessage.replace(/\s*\?/g,'?')
 
     let wordsInMessage = filteredMessage.split(' ')
+
+    registerAnswer(wordsInMessage[0])
 
     for (let i = 0; i < wordsInMessage.length - 1; i++) {
         let currentWord = wordsInMessage[i]
         let nextWord = wordsInMessage[i + 1]
 
-        if (words[currentWord] === undefined) {
-            words[currentWord] = []
-        } else {
-            words[currentWord].push(nextWord)
-        }
+        processWord(currentWord,nextWord)
     }
+
+    let lastWord = wordsInMessage[wordsInMessage.length - 1]
+
+    if (lastWord.endsWith('?')) {
+        console.log('Is question')
+
+        questionWord = lastWord.replace(/\?+/g,'')
+    } else {
+        questionWord = ''
+    }
+}
+
+function registerAnswer (word) {
+    if (questionWord === '') return;
+
+    console.log('Registered question: ' + questionWord + ' ' +  word)
+
+    processWord(questionWord,word)
 }
 
 exports.trainOnMessage = trainOnMessage
