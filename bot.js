@@ -18,8 +18,8 @@ app.discord.client.login(process.env.BOT_TOKEN)
 app.discord.client.on('ready', () => {
     console.log('Bot ready!')
 
-    app.discussionChannel = app.discord.client.channels.find(x => x.id == '504032866829598731')
-    app.flopChannel = app.discord.client.channels.find(x => x.id == "504609258692804608")
+    app.discussionChannel = app.discord.client.channels.find(x => x.id == '492292404532215822')
+    app.flopChannel = app.discord.client.channels.find(x => x.id == "754047080405794896")
 
     app.modules.training.init(app)
 });
@@ -29,7 +29,7 @@ let users = {};
 app.discord.client.on('message', msg => {
     if(msg.author.id === app.discord.client.user.id) return;
     
-    if(msg.author.id != '338699578834550784') {
+    if(msg.author.id != '338699578834550784') { 
         app.modules.training.trainOnMessage(msg)
     }
 
