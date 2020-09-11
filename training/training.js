@@ -28,9 +28,9 @@ exports.words = words;
 let currentChannel = 0
 
 function getMessages () {
-    app.discussionChannel.send(`Getting ${app.process.env.MAX_MESSAGES} messages from ${textChannels.size} channels`);
+    //app.discussionChannel.send(`Getting ${app.process.env.MAX_MESSAGES} messages from ${textChannels.size} channels`);
 
-    textChannels = textChannels.filter(x => x != app.discussionChannel)
+    //textChannels = textChannels.filter(x => x != app.discussionChannel)
     textChannels = textChannels.filter(x => x != app.robotChannel)
 
     textChannels.tap(channel => {
@@ -59,7 +59,7 @@ function getAllMessagesInChannel (before, channel) {
                 if (currentChannel == textChannels.size) {
                     console.log(`recieved all messages! Total ${allMessages.size}`)
 
-                    app.discussionChannel.send(`recieved all messages! Total ${allMessages.size}`);
+                    //app.discussionChannel.send(`recieved all messages! Total ${allMessages.size}`);
                     onHasAllMessages()
                 }
             }
