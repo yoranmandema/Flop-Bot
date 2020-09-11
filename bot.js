@@ -18,8 +18,8 @@ app.discord.client.login(process.env.BOT_TOKEN)
 app.discord.client.on('ready', () => {
     console.log('Bot ready!')
 
-    app.discussionChannel = app.discord.client.channels.find(x => x.id == '492292404532215822')
-    app.flopChannel = app.discord.client.channels.find(x => x.id == "754047080405794896")
+    app.discussionChannel = app.discord.client.channels.find(x => x.id == process.env.DISCUSSION_CHANNEL)
+    app.flopChannel = app.discord.client.channels.find(x => x.id == process.env.FLOP_CHANNEL)
 
     app.modules.training.init(app)
 });
